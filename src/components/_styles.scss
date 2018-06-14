@@ -1,0 +1,153 @@
+html,
+body,
+.root,
+.root > div {
+	height: 100%;
+	background-image: url('img/sky.jpg');
+	background-size: cover;
+	font-size: 18px;
+	font-family: Arial;
+    font-weight: bold;
+    font-style: normal;
+}
+
+.root * {
+	-webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
+
+.card-background{
+	margin: 40px 250px 40px 250px;
+	padding: 3rem;
+	font-size: 24px;
+    font-family: SerifaStd-Roman;
+    font-weight: normal;
+    font-style: normal;
+    background-color: white;
+}
+
+.has-border{
+	border: 1px solid #979797;
+}
+
+.has-border-radius{
+ border-radius: .70rem;
+}
+
+.has-margin20px{
+	margin: 20px;
+}
+
+.has-margin-top10{
+    margin: 10px 0 0;
+}
+
+.img-30{
+	width: 30%;
+}
+
+.has-padding{
+	padding: 1rem;
+}
+
+.has-padding100per{
+	padding: 100%;
+}
+
+.employee-card{
+	display: inline-block;
+	margin: 1rem;
+	width: 13rem;
+	box-shadow: 0 1.8px 1px rgba(0, 0, 0, 0.25);
+	font-size: 45%;
+}
+
+a:hover > .card {
+	background-color: $white-bis;
+}
+
+.image.is-256x256 {
+	height: 256px;
+	width: 256px;
+}
+
+.image.is-40x40 {
+	height: 40px;
+	width: 40px;
+}
+
+.file-input {
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+	opacity: 0;
+}
+
+.calendar-container {
+	height: 500px;
+}
+
+.rbc-event {
+	background-color: $primary;
+}
+
+.rbc-event.rbc-selected {
+	background-color: $primary-dark;
+}
+
+.rbc-today {
+	background-color: $primary-light;
+}
+
+.has-background-white {
+	background-color: $white;
+}
+
+.has-background-primary {
+	background-color: $primary;
+}
+
+.has-background-primary-dark {
+	background-color: $primary-dark;
+}
+
+.is-fullheight {
+	height: 100%;
+}
+
+.has-padding {
+	padding: 15px;
+}
+
+.has-no-text-decoration {
+	text-decoration: none !important;
+}
+
+.has-text-primary-light {
+	color: $primary-light;
+}
+
+.has-text-primary-dark {
+	color: $primary-dark;
+}
+
+.has-margin {
+	margin: 30px;
+}
+
+.has-cursor-pointer {
+	cursor: pointer;
+}
+
+.stay-bottom {
+	position: fixed;
+	bottom: 0;
+	width: 80%;
+}
+
+
+.has-padding-right{
+	padding-right: 1rem;
+}

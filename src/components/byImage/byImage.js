@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
 
-const APIurl = 'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=test';
+const APIurl = 'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=testReact';
 
 class ByImage extends Component {
   state = {
@@ -14,14 +14,14 @@ class ByImage extends Component {
   }
 
   fileSelectedHandler = event => {
-
-    let reader = new FileReader();
-    
-    reader.onload = (e) => {
-        this.setState({image: e.target.result});
-    };
-    reader.readAsDataURL(event.target.files[0]);
-    console.log(event.target.files[0].name);
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+          this.setState({image: e.target.result});
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      console.log(event.target.files[0].name);
+    }
   }
 
   fileUploadHandler = () => {
@@ -32,8 +32,8 @@ class ByImage extends Component {
     let config = {
         headers: {
           'Content-Type': 'image/jpeg',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': '*'
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT"
         }
     }
 
@@ -10232,6 +10232,8 @@ class ByImage extends Component {
       }, config)
       .then(res => {
           console.log(res);
+        }).catch(err =>{
+          console.log(err);
         });
   }
 

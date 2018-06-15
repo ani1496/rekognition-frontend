@@ -6,18 +6,23 @@ import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
 
-const APIurl = 'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=testReact';
+const APIurl = 'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=';
 
 class ByImage extends Component {
   state = {
-    image : null
+    image : null,
+    imageName: null,
   }
 
   fileSelectedHandler = event => {
     if (event.target.files && event.target.files[0]) {
+      let name = event.target.files[0].name;
       let reader = new FileReader();
-      reader.onload = (e) => {
-          this.setState({image: e.target.result});
+      reader.onload = () => {
+          this.setState({
+            image: reader.result,
+            imageName: name
+          });
       };
       reader.readAsDataURL(event.target.files[0]);
       console.log(event.target.files[0].name);
@@ -26,7 +31,9 @@ class ByImage extends Component {
 
   fileUploadHandler = () => {
     const fd = new FormData();
-    fd.append('image' + this.state.image, this.state.image.name);
+    fd.append('data', this.state.image);
+
+    console.log(fd.get('data'));
 
 
     let config = {
@@ -38,9 +45,8 @@ class ByImage extends Component {
     }
 
     axios
-      .post(`${APIurl}`, 
-      {
-        "user_avatar":  [
+      .post(`${APIurl}${this.state.imageName}`, 
+      {"data":  [
             255,
             216,
             255,
@@ -10227,9 +10233,7 @@ class ByImage extends Component {
             77,
             92,
             255,
-            217
-        ]
-      }, config)
+            217]}, config)
       .then(res => {
           console.log(res);
         }).catch(err =>{
@@ -10255,7 +10259,7 @@ class ByImage extends Component {
               className="file-input"
               type="file"
               accept=".jpg, .png, .jpeg"
-              onChange={this.fileSelectedHandler.bind(this)}
+              onChange={this.fileSelectedHandler}
             />
             <span className="icon has-padding-right">
                   <i className="fa fa-upload"></i>
@@ -10263,15 +10267,28 @@ class ByImage extends Component {
             Choose Image to Upload
           </a> 
           <br/>
-            <Link className="button is-link is-rounded has-margin-top10" to="/imageSearchResult" onClick={this.fileUploadHandler}>
+            <button className="button is-link is-rounded has-margin-top10" onClick={this.fileUploadHandler}>
               <span className="icon has-padding-right">
                     <i className="fa fa-search "></i>
               </span>
                 Search
-            </Link> 
+            </button> 
       </div>
     );
   }
 }
 
 export default ByImage;
+
+
+//<Link className="button is-link is-rounded has-margin-top10" to="/imageSearchResult" onClick={this.fileUploadHandler}>
+  //<span className="icon has-padding-right">
+        //<i className="fa fa-search "></i>
+  //</span>
+    //Search
+//</Link>
+
+
+
+
+

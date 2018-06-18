@@ -7,10 +7,10 @@ import PersonIcon from '../../img/person.png';
 class EmployeeCard extends Component {
   render() {
     return (
-     <div className="card employee-card">
+      <div className="card employee-card">
         <div className="card-image">
           <figure className="image">
-            <img className="has-border" src={PersonIcon}/>
+            <img className="has-border" src={PersonIcon} alt="employee" />
           </figure>
         </div>
         <div className="card-content has-text-left">
@@ -22,9 +22,9 @@ class EmployeeCard extends Component {
 
           <div className="content">
             Position: Position in the company
-            <br/>
+            <br />
             Email: email@fpl.com
-            <br/>
+            <br />
             Manager: Manager Name
           </div>
         </div>

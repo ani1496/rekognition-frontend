@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
+
+const APIurl =
+      'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=';
+
 
 function base64ToArrayBuffer(base64) {
       var binary_string = window.atob(base64);
       var len = binary_string.length;
       var bytes = [];
+      
       for (var i = 0; i < len; i++) {
             bytes[i] = binary_string.charCodeAt(i);
       }
+      
       return bytes;
 }
 
-const APIurl =
-      'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=';
 
 class ByImage extends Component {
       state = {
             image: null,
-            imageName: null
+            imageName: null, 
+            employeeID: null
       };
 
       fileSelectedHandler = event => {
@@ -53,7 +59,8 @@ class ByImage extends Component {
                         'Content-Type': 'image/jpeg',
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Methods':
-                              'GET,HEAD,OPTIONS,POST,PUT'
+                              'GET,HEAD,OPTIONS,POST,PUT',
+                        'Accept': 'application/json'
                   }
             };
 
@@ -63,13 +70,21 @@ class ByImage extends Component {
                         {
                               data: this.state.imageBytes
                         },
-                        config
+                        config, 
+                        {
+                              responseType:'json',
+                        }
                   )
                   .then(res => {
-                        // console.log(res);
+                        var faceIdWithNormalForehead = res.data.FaceMatches[0].Face.ExternalImageId;
+                        var test = "testing props"
+                        console.log(faceIdWithNormalForehead);
+                        // this.setState({
+                        //       employeeID: test
+                        // })
                   })
                   .catch(err => {
-                        // console.log(err);
+                        console.log(err);
                   });
       };
 
@@ -101,25 +116,27 @@ class ByImage extends Component {
                               Choose Image to Upload
                         </a>
                         <br />
-                        <button
-                              className="button is-link is-rounded has-margin-top10"
+                        <Link className="button is-link is-rounded has-margin-top10" 
+                              to = "/imageSearchResult" 
                               onClick={this.fileUploadHandler}
                         >
                               <span className="icon has-padding-right">
-                                    <i className="fa fa-search " />
+                              <i className="fa fa-search "></i>
                               </span>
                               Search
-                        </button>
+                        </Link>
                   </div>
             );
       }
 }
 
-export default ByImage;
+function mapStateToProps(state){
+      return {
+            //employeesID : state.employeeID,
+            test: "test"
+      };
+}
 
-//<Link className="button is-link is-rounded has-margin-top10" to="/imageSearchResult" onClick={this.fileUploadHandler}>
-//<span className="icon has-padding-right">
-//<i className="fa fa-search "></i>
-//</span>
-//Search
-//</Link>
+export default connect (mapStateToProps)(ByImage);
+
+

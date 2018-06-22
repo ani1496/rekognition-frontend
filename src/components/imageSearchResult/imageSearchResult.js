@@ -14,6 +14,8 @@ class ImageSearchResult extends Component {
           <img className="has-border" src={imgIcon} alt="selectedImage" />
         </p>
 
+
+        <EmployeeCard />
         <EmployeeCard />
         <EmployeeCard />
         <EmployeeCard />
@@ -26,7 +28,7 @@ class ImageSearchResult extends Component {
           <span className="icon has-padding-right">
             <i className="fa fa-search " />
           </span>
-          New Search
+          New Search { console.log("id " + this.props.test)}
         </Link>
       </div>
     );

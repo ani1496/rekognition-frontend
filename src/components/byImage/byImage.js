@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 // import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
 
@@ -66,7 +66,7 @@ class ByImage extends Component {
                         config
                   )
                   .then(res => {
-                        // console.log(res);
+                        console.log(res);
                   })
                   .catch(err => {
                         // console.log(err);
@@ -101,15 +101,12 @@ class ByImage extends Component {
                               Choose Image to Upload
                         </a>
                         <br />
-                        <button
-                              className="button is-link is-rounded has-margin-top10"
-                              onClick={this.fileUploadHandler}
-                        >
+                       <Link className="button is-link is-rounded has-margin-top10" to="/imageSearchResult" onClick={this.fileUploadHandler}>
                               <span className="icon has-padding-right">
-                                    <i className="fa fa-search " />
+                                    <i className="fa fa-search "></i>
                               </span>
                               Search
-                        </button>
+                        </Link>
                   </div>
             );
       }

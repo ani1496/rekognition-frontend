@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
+import * as myAPIs from './api.js';
+
 
 function base64ToArrayBuffer(base64) {
       var binary_string = window.atob(base64);
@@ -15,8 +17,7 @@ function base64ToArrayBuffer(base64) {
       return bytes;
 }
 
-const APIurl =
-      'https://suodwh7n05.execute-api.us-east-1.amazonaws.com/prod/upload-image-to-s3?username=';
+const APIurl = myAPIs.rekAPI;
 
 class ByImage extends Component {
       state = {

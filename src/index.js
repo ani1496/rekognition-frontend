@@ -10,8 +10,14 @@ import './main.css';
 import reducerRekognition from './reducers/index.js';
 import App from './components/app.js';
 
+import * as actions from './actions/index.js';
+
 //This is the store we create with redux's createStore method
 const store = createStore(reducerRekognition, {})
+
+store.dispatch(actions.getEmployee())
+console.log(store.getState());
+
 
 ReactDOM.render(
 	<Provider store={store}>

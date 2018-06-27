@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
 import * as myAPIs from './api.js';
+import * as actions from '../../actions/index.js';
 
 
 function base64ToArrayBuffer(base64) {
@@ -82,7 +83,9 @@ class ByImage extends Component {
                   });
       };
 
+
       render() {
+
             return (
                   <div className="card-background has-text-centered has-border-radius">
                         <h1>Find By Image</h1>
@@ -121,14 +124,15 @@ class ByImage extends Component {
       }
 }
 
+
 function mapStateToProps(state) {
       return {
             image: state.image,
             employeeID: state.employeeID,
-            test: 'test'
+            employees: state.employees
       };
 }
 
-export default connect(mapStateToProps)(ByImage);
+export default connect(mapStateToProps, actions)(ByImage);
 
 // export default ByImage;

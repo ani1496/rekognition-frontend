@@ -6,7 +6,7 @@ import PersonIcon from '../../img/person.png';
 
 
 const EmployeeCard = props => {
-
+  
   const { name = 'Employee Name', position, email, manager} = props.employee;
 
   return (

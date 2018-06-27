@@ -66,7 +66,7 @@ class ImageSearchResult extends Component {
 
 
   render() {
-    //console.log(employeesArray);
+    console.log(this.props.test);
 
     return (
       <div className="card-background has-text-centered has-border-radius">

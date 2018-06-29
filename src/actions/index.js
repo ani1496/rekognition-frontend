@@ -1,3 +1,8 @@
+import * as myAPIs from './api.js';
+import axios from 'axios';
+
+//const APIurl = myAPIs.rekAPI;
+
 
 const employeeOne = {
   id: 1,
@@ -30,29 +35,53 @@ const employeesArray = [employeeOne, employeeTwo, employeeThree];
 
 //GET_EMPLOYEE
 export const getEmployee = (ids = employeesArray) => ({    //GET API DYNAMODB!!!!!!
-	// return dispatch => {
-	// 	axios.get().then( res => {
-	// 		dispatch({
-	// 			type: GET_EMPLOYEE,
-	// 			employees: res
-	// 		})
-	// 	});
-	// }
 	type: 'GET_EMPLOYEE',
 	employees: ids
 });
 
+export const getEmployeeDB = (id = 1007) => {    //GET API DYNAMODB!!!!!!
+	return dispatch => {
+		axios.get(`${myAPIs.dbAPI}${id}`).then((res)=>{
+			dispatch ({
+				type: 'GET_EMPLOYEE_DB',
+				employeeDB: res.data.Item
+			});
+		});
+	}
+};
+
 //REKOGNITION
-export const useRekognition = (image) => ({
-	type: 'REKOGNITION',
-	//imageInf: axios
-	image
-});
+export const rekognitionPost = (imageName, imageBytes, config) => {
+	return dispatch =>{
+        axios
+		.post(
+		    `${myAPIs.rekAPI}${imageName}`,
+		    {
+		          data: imageBytes
+		    },
+		    config, 
+		    {
+		          responseType:'json',
+		    }
+		)
+		.then( res => {
+			dispatch({
+				type: 'REKOGNITION',
+				employeesIDs: res.data.FaceMatches[0].Face.ExternalImageId
+			})
+		}).catch(err => {
+		    console.log(err);
+		});
+	};
+};
+
 
 //SAVE_IMAGE
-export const saveImage = (image) => ({
+export const saveImage = (image, imageBytes, imageName) => ({
 	type: 'SAVE_IMAGE',
-	image
+	image,
+	imageBytes,
+	imageName
 });
 
 

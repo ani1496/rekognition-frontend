@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
 import * as myAPIs from './api.js';
-import * as actions from '../../actions/index.js';
+import { saveImage, rekognitionPost } from '../../actions/index.js';
 
 
 function base64ToArrayBuffer(base64) {
@@ -21,11 +21,15 @@ function base64ToArrayBuffer(base64) {
 const APIurl = myAPIs.rekAPI;
 
 class ByImage extends Component {
-      state = {
-            image: null,
-            imageName: null,
-            employeeID: null
-      };
+      constructor(props) {
+            super(props);
+
+            this.state = {
+                  image: null,
+                  imageName: null,
+                  employeeID: null
+            };
+      }
 
       fileSelectedHandler = event => {
             if (event.target.files && event.target.files[0]) {
@@ -34,7 +38,7 @@ class ByImage extends Component {
 
                   reader.onload = () => {
                         const splitIndex = reader.result.indexOf(',') + 1;
-
+                        
                         this.setState({
                               image: reader.result,
                               imageBytes: base64ToArrayBuffer(
@@ -42,6 +46,7 @@ class ByImage extends Component {
                               ),
                               imageName: name
                         });
+                        this.props.dispatch(saveImage(this.state.image));
                   };
                   reader.readAsDataURL(event.target.files[0]);
             }
@@ -72,11 +77,14 @@ class ByImage extends Component {
                         }
                   )
                   .then(res => {
-                        var employeeID = res.data.FaceMatches[0].Face.ExternalImageId;
-                        console.log(employeeID);
-                        this.setState({
-                              employeeID
-                        })
+                        var employeesIds = [];
+
+                        // for(let i=0; i<res.date.FaceMatches.length; i++){
+                        //       employeesIds[i].push(res.data.FaceMatches[i].Face.ExternalImageId);
+                        // }
+                        employeesIds[0] = res.data.FaceMatches[0].Face.ExternalImageId;
+
+                        console.log(employeesIds[0]);
                   })
                   .catch(err => {
                         console.log(err);
@@ -89,6 +97,7 @@ class ByImage extends Component {
             return (
                   <div className="card-background has-text-centered has-border-radius">
                         <h1>Find By Image</h1>
+                        {console.log('Props DataBase = ' + this.props.employeeDB)}
                         <p className="level-item has-text-centered has-margin20px">
                               <img
                                     className="has-border"
@@ -105,7 +114,7 @@ class ByImage extends Component {
                                     className="file-input"
                                     type="file"
                                     accept=".jpg, .png, .jpeg"
-                                    onChange={this.fileSelectedHandler}
+                                    onChange={this.fileSelectedHandler.bind(this)}
                               />
                               <span className="icon has-padding-right">
                                     <i className="fa fa-upload" />
@@ -127,12 +136,13 @@ class ByImage extends Component {
 
 function mapStateToProps(state) {
       return {
-            image: state.image,
             employeeID: state.employeeID,
-            employees: state.employees
+            employees: state.employees,
+            employeeDB: state.employeeDB,
+            test: 'test'
       };
 }
 
-export default connect(mapStateToProps, actions)(ByImage);
+export default connect(mapStateToProps)(ByImage);
 
 // export default ByImage;

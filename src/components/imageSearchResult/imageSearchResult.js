@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-//import { createStore, combineReducers } from 'redux';
 
 import EmployeeCard from '../employeeCard/employeeCard.js';
 import imgIcon from '../../img/img.png';
@@ -11,15 +10,24 @@ const ImageSearchResult = (props) => {
   
   const renderEmployees = (employees) => {
     return employees.map(employee => (
-      <EmployeeCard key={employee._id} employee={employee} />
+      <EmployeeCard key={employee.id} employee={employee} />
     ));
   }
 
   return (
     <div className="card-background has-text-centered has-border-radius">
       <h1>Find By Image</h1>
+      <p>{props.employeesIDs && <p>true</p> }</p>
       <p className="level-item has-margin20px">
-        <img className="has-border" src={imgIcon} alt="selectedImage" />
+        <img 
+          className="has-border"
+          src={
+            props.image
+              ? props.image
+              : imgIcon
+          }
+          alt="selectedImage" 
+        />
       </p>
 
        {renderEmployees(props.employees)}
@@ -41,7 +49,9 @@ const ImageSearchResult = (props) => {
 
 function mapStateToProps(state) {
       return {
-            employees : state.employees
+            employees : state.employees,
+            employeesIDs: state.employeesIDs,
+            image: state.image
       };
 }
 

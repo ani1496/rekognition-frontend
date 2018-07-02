@@ -7,7 +7,7 @@ import PersonIcon from '../../img/person.png';
 
 const EmployeeCard = props => {
   
-  const { name = 'Employee Name', position, email, manager} = props.employee;
+  const { firstname = 'Employee Name', lastname, employeetitle, parent} = props.employee;
 
   return (
     <div className="card employee-card">
@@ -19,16 +19,14 @@ const EmployeeCard = props => {
       <div className="card-content has-text-left">
         <div className="media">
           <div className="media-content">
-            <p className="is-size-6 has-text-weight-bold">{name}</p>
+            <p className="is-size-6 has-text-weight-bold">{`${firstname} ${lastname}`}</p>
           </div>
         </div>
 
         <div className="content">
-          Position: {position}
+          Position: {employeetitle}
           <br />
-          Email: {email}
-          <br />
-          Manager: {manager}
+          Manager: {parent}
         </div>
       </div>
     </div>

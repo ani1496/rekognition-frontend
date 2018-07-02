@@ -4,20 +4,25 @@ import { Link } from 'react-router-dom';
 
 import EmployeeCard from '../employeeCard/employeeCard.js';
 import imgIcon from '../../img/img.png';
+import { getEmployeeDB } from '../../actions/index.js';
 
+import * as actions from '../../actions/index.js';
 
 const ImageSearchResult = (props) => {
   
-  const renderEmployees = (employees) => {
-    return employees.map(employee => (
-      <EmployeeCard key={employee.id} employee={employee} />
-    ));
-  }
+
+  const renderEmployees = (employees) => { 
+    console.log(employees.length);
+    if (employees)
+      return employees.map(employee => (
+        <EmployeeCard key={employee.id} employee={employee} />
+      ));
+  };
 
   return (
     <div className="card-background has-text-centered has-border-radius">
       <h1>Find By Image</h1>
-      <p>{props.employeesIDs && <p>true</p> }</p>
+      <p>{props.employeesIDs}</p>
       <p className="level-item has-margin20px">
         <img 
           className="has-border"
@@ -31,6 +36,9 @@ const ImageSearchResult = (props) => {
       </p>
 
        {renderEmployees(props.employees)}
+       {props.employeeInfo && console.log(props.employeeInfo.length)}
+
+     
 
       <br />
 
@@ -50,9 +58,10 @@ const ImageSearchResult = (props) => {
 function mapStateToProps(state) {
       return {
             employees : state.employees,
-            employeesIDs: state.employeesIDs,
+            employeeInfo: state.employeeInfo,
+            employeeDB: state.employeeDB,
             image: state.image
       };
 }
 
-export default connect(mapStateToProps)(ImageSearchResult);
+export default connect(mapStateToProps, actions)(ImageSearchResult);

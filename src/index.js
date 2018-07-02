@@ -19,9 +19,10 @@ const store = createStore(reducerRekognition, {}, composeEnhancers(applyMiddlewa
 
 
 store.dispatch(actions.getEmployee())
-console.log(store.getState());
-store.dispatch(actions.getEmployeeDB(1007))
-console.log(store.getState());
+// console.log(store.getState());
+// store.dispatch(actions.getEmployeeDB(1007));
+// console.log('state: ' + JSON.stringify(store.getState()));
+//console.log('state after get getEmployeeDB: ' + JSON.stringify(store.getState()));
 
 
 ReactDOM.render(

@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
 import * as myAPIs from './api.js';
-import { saveImage, rekognitionPost } from '../../actions/index.js';
 
+import { saveImage, rekognitionPost } from '../../actions/index.js';
+import * as actions from '../../actions/index.js';
+
+const APIurl = myAPIs.rekAPI;
 
 function base64ToArrayBuffer(base64) {
       var binary_string = window.atob(base64);
@@ -18,16 +21,13 @@ function base64ToArrayBuffer(base64) {
       return bytes;
 }
 
-const APIurl = myAPIs.rekAPI;
-
 class ByImage extends Component {
       constructor(props) {
             super(props);
 
             this.state = {
                   image: null,
-                  imageName: null,
-                  employeeID: null
+                  imageName: null
             };
       }
 
@@ -46,7 +46,7 @@ class ByImage extends Component {
                               ),
                               imageName: name
                         });
-                        this.props.dispatch(saveImage(this.state.image));
+                        this.props.saveImage(this.state.image);
                   };
                   reader.readAsDataURL(event.target.files[0]);
             }
@@ -65,30 +65,8 @@ class ByImage extends Component {
                   }
             };
 
-            axios
-                  .post(
-                        `${APIurl}${this.state.imageName}`,
-                        {
-                              data: this.state.imageBytes
-                        },
-                        config, 
-                        {
-                              responseType:'json',
-                        }
-                  )
-                  .then(res => {
-                        var employeesIds = [];
+            this.props.rekognitionPost(this.state.imageName, this.state.imageBytes, config);
 
-                        // for(let i=0; i<res.date.FaceMatches.length; i++){
-                        //       employeesIds[i].push(res.data.FaceMatches[i].Face.ExternalImageId);
-                        // }
-                        employeesIds[0] = res.data.FaceMatches[0].Face.ExternalImageId;
-
-                        console.log(employeesIds[0]);
-                  })
-                  .catch(err => {
-                        console.log(err);
-                  });
       };
 
 
@@ -97,7 +75,6 @@ class ByImage extends Component {
             return (
                   <div className="card-background has-text-centered has-border-radius">
                         <h1>Find By Image</h1>
-                        {console.log('Props DataBase = ' + this.props.employeeDB)}
                         <p className="level-item has-text-centered has-margin20px">
                               <img
                                     className="has-border"
@@ -134,15 +111,14 @@ class ByImage extends Component {
 }
 
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
       return {
             employeeID: state.employeeID,
-            employees: state.employees,
-            employeeDB: state.employeeDB,
-            test: 'test'
+            employees: state.employees
       };
-}
+};
 
-export default connect(mapStateToProps)(ByImage);
+
+export default connect(mapStateToProps, actions)(ByImage);
 
 // export default ByImage;

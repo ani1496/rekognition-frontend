@@ -34,17 +34,17 @@ const employeesArray = [employeeOne, employeeTwo, employeeThree];
 
 
 //GET_EMPLOYEE
-export const getEmployee = (ids = employeesArray) => ({    //GET API DYNAMODB!!!!!!
+export const getEmployee = (ids = employeesArray) => ({ 
 	type: 'GET_EMPLOYEE',
 	employees: ids
 });
 
 export const getEmployeeDB = (id = 1007) => {    //GET API DYNAMODB!!!!!!
 	return dispatch => {
-		axios.get(`${myAPIs.dbAPI}${id}`).then((res)=>{
+		axios.get(`${myAPIs.dbAPI}${id}`).then( res => {
 			dispatch ({
 				type: 'GET_EMPLOYEE_DB',
-				employeeDB: res.data.Item
+				employeeDB: res
 			});
 		});
 	}
@@ -53,8 +53,28 @@ export const getEmployeeDB = (id = 1007) => {    //GET API DYNAMODB!!!!!!
 //REKOGNITION
 export const rekognitionPost = (imageName, imageBytes, config) => {
 	return dispatch =>{
-        axios
-		.post(
+  //       axios
+		// .post(
+		//     `${myAPIs.rekAPI}${imageName}`,
+		//     {
+		//           data: imageBytes
+		//     },
+		//     config, 
+		//     {
+		//           responseType:'json',
+		//     }
+		// )
+		// .then( res => {
+			
+		// 	dispatch({
+		// 		type: 'REKOGNITION',
+		// 		employeesIDs: res.data.FaceMatches[0].Face.ExternalImageId
+		// 	})
+		// }).catch(err => {
+		//     console.log(err);
+		// });
+
+		axios.post(
 		    `${myAPIs.rekAPI}${imageName}`,
 		    {
 		          data: imageBytes
@@ -64,16 +84,28 @@ export const rekognitionPost = (imageName, imageBytes, config) => {
 		          responseType:'json',
 		    }
 		)
-		.then( res => {
-			dispatch({
-				type: 'REKOGNITION',
-				employeesIDs: res.data.FaceMatches[0].Face.ExternalImageId
-			})
-		}).catch(err => {
-		    console.log(err);
+		.then((response) => {
+			let array = [];
+
+			for(var i=0; i<response.data.FaceMatches.length; i++){
+				axios.get(`${myAPIs.dbAPI}${1007}`).then(res => {
+					array.push('rudy is lameee');
+					array.push('but A.N.A likes him that way :)');
+				});
+			}
+			
+		    return array;
+		})
+		.then((response = []) => {
+		      dispatch({
+		      	type: 'REKOGNITION',
+		        payload: response
+		      })
 		});
 	};
 };
+
+
 
 
 //SAVE_IMAGE
@@ -84,11 +116,5 @@ export const saveImage = (image, imageBytes, imageName) => ({
 	imageName
 });
 
-
-//SAVE_REKOGNITION
-export const rekognitionResponse = (response) => ({
-	type: 'SAVE_REKOGNITION',
-	response
-});
 
 

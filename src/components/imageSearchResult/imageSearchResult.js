@@ -12,7 +12,6 @@ const ImageSearchResult = (props) => {
   
 
   const renderEmployees = (employees) => { 
-    console.log(employees.length);
     if (employees)
       return employees.map(employee => (
         <EmployeeCard key={employee.id} employee={employee} />
@@ -35,10 +34,7 @@ const ImageSearchResult = (props) => {
         />
       </p>
 
-       {renderEmployees(props.employees)}
-       {console.log(props.employeeInfo)}
-       {props.employeeInfo && console.log(props.employeeInfo.length)}
-     
+       {renderEmployees(props.employeeInfo)}
 
       <br />
 

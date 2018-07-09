@@ -51,30 +51,22 @@ export const getEmployeeDB = (id = 1007) => {    //GET API DYNAMODB!!!!!!
 };
 
 //REKOGNITION
-export const rekognitionPost = (imageName, imageBytes, config) => {
-	return dispatch =>{
-  //       axios
-		// .post(
-		//     `${myAPIs.rekAPI}${imageName}`,
-		//     {
-		//           data: imageBytes
-		//     },
-		//     config, 
-		//     {
-		//           responseType:'json',
-		//     }
-		// )
-		// .then( res => {
-			
-		// 	dispatch({
-		// 		type: 'REKOGNITION',
-		// 		employeesIDs: res.data.FaceMatches[0].Face.ExternalImageId
-		// 	})
-		// }).catch(err => {
-		//     console.log(err);
-		// });
+export const rekognitionPost = (imageName, imageBytes, config) => {  
+  return async dispatch => {
+  	let getResponse;
+  	let postResponse;
+  	let arrayDB = [];
 
-		axios.post(
+    function onSuccess(response) {
+      	dispatch({
+	      	type: 'REKOGNITION',
+	        payload: response
+		})
+		return response;
+    }
+
+    try {
+      	postResponse = await axios.post(
 		    `${myAPIs.rekAPI}${imageName}`,
 		    {
 		          data: imageBytes
@@ -83,27 +75,20 @@ export const rekognitionPost = (imageName, imageBytes, config) => {
 		    {
 		          responseType:'json',
 		    }
-		)
-		.then((response) => {
-			let array = [];
+		);
 
-			for(var i=0; i<response.data.FaceMatches.length; i++){
-				axios.get(`${myAPIs.dbAPI}${1007}`).then(res => {
-					array.push('rudy is lameee');
-					array.push('but A.N.A likes him that way :)');
-				});
-			}
-			
-		    return array;
-		})
-		.then((response = []) => {
-		      dispatch({
-		      	type: 'REKOGNITION',
-		        payload: response
-		      })
-		});
-	};
-};
+		for(var i=0; i<postResponse.data.FaceMatches.length; i++){
+			getResponse = await axios.get(`${myAPIs.dbAPI}${1007}`)
+			arrayDB.push(getResponse.data.Item);
+		}
+
+      	return onSuccess(arrayDB);
+    }
+    catch(err){
+    	console.log(err);
+    }
+  }
+}
 
 
 
@@ -115,6 +100,7 @@ export const saveImage = (image, imageBytes, imageName) => ({
 	imageBytes,
 	imageName
 });
+
 
 
 

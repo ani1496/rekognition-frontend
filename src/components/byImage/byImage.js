@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import imgIcon from '../../img/img.png';
 import * as myAPIs from './api.js';
 
-import { saveImage, rekognitionPost } from '../../actions/index.js';
+import { saveImage, rekognitionPost} from '../../actions/index.js';
 import * as actions from '../../actions/index.js';
 
 const APIurl = myAPIs.rekAPI;

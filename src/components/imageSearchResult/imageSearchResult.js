@@ -36,8 +36,8 @@ const ImageSearchResult = (props) => {
       </p>
 
        {renderEmployees(props.employees)}
+       {console.log(props.employeeInfo)}
        {props.employeeInfo && console.log(props.employeeInfo.length)}
-
      
 
       <br />

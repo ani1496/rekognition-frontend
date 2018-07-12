@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import imgIcon from '../../img/img.png';
-import * as myAPIs from './api.js';
-
-import { saveImage, rekognitionPost} from '../../actions/index.js';
 import * as actions from '../../actions/index.js';
 
-const APIurl = myAPIs.rekAPI;
 
 function base64ToArrayBuffer(base64) {
       var binary_string = window.atob(base64);
@@ -113,12 +108,9 @@ class ByImage extends Component {
 
 const mapStateToProps = (state) => {
       return {
-            employeeID: state.employeeID,
-            employees: state.employees
+            employeeID: state.employeeID
       };
 };
 
-
 export default connect(mapStateToProps, actions)(ByImage);
 
-// export default ByImage;

@@ -11,18 +11,9 @@ import './main.css';
 import reducerRekognition from './reducers/index.js';
 import App from './components/app.js';
 
-import * as actions from './actions/index.js';
-
 //This is the store we create with redux's createStore method
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducerRekognition, {}, composeEnhancers(applyMiddleware(thunk)));
-
-
-store.dispatch(actions.getEmployee())
-// console.log(store.getState());
-// store.dispatch(actions.getEmployeeDB(1007));
-// console.log('state: ' + JSON.stringify(store.getState()));
-//console.log('state after get getEmployeeDB: ' + JSON.stringify(store.getState()));
 
 
 ReactDOM.render(

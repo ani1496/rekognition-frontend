@@ -1,63 +1,16 @@
 import * as myAPIs from './api.js';
 import axios from 'axios';
 
-//const APIurl = myAPIs.rekAPI;
-
-
-const employeeOne = {
-  id: 1,
-  name: 'Juan',
-  position: 'Intern',
-  email: 'juan@flp.com',
-  manager: 'Pablo'
-}
-
-const employeeTwo = {
-  id: 2,
-  name: 'Lucas',
-  position: 'Intern 1',
-  email: 'lucas@flp.com',
-  manager: 'JD'
-}
-
-const employeeThree = {
-  id: 3,
-  name: 'Banana',
-  position: 'Intern 2',
-  email: 'pedro@flp.com',
-  manager: 'Julio'
-}
-
-
-const employeesArray = [employeeOne, employeeTwo, employeeThree];
-
-
-
-//GET_EMPLOYEE
-export const getEmployee = (ids = employeesArray) => ({ 
-	type: 'GET_EMPLOYEE',
-	employees: ids
-});
-
-export const getEmployeeDB = (id = 1007) => {    //GET API DYNAMODB!!!!!!
-	return dispatch => {
-		axios.get(`${myAPIs.dbAPI}${id}`).then( res => {
-			dispatch ({
-				type: 'GET_EMPLOYEE_DB',
-				employeeDB: res
-			});
-		});
-	}
-};
 
 //REKOGNITION
 export const rekognitionPost = (imageName, imageBytes, config) => {  
   return async dispatch => {
-  	let getResponse;
-  	let postResponse;
+  	let employeeResponse;
+  	let postRekognitionResponse;
+  	let managerResponse;
   	let arrayDB = [];
 
-    function onSuccess(response) {
+    function dispatchingResponse(response) {
       	dispatch({
 	      	type: 'REKOGNITION',
 	        payload: response
@@ -66,7 +19,7 @@ export const rekognitionPost = (imageName, imageBytes, config) => {
     }
 
     try {
-      	postResponse = await axios.post(
+      	postRekognitionResponse = await axios.post(
 		    `${myAPIs.rekAPI}${imageName}`,
 		    {
 		          data: imageBytes
@@ -77,21 +30,28 @@ export const rekognitionPost = (imageName, imageBytes, config) => {
 		    }
 		);
 
-		for(var i=0; i<postResponse.data.FaceMatches.length; i++){
-			getResponse = await axios.get(`${myAPIs.dbAPI}${1007}`)
-			arrayDB.push(getResponse.data.Item);
+		if(postRekognitionResponse.data.FaceMatches)
+			console.log(JSON.stringify(postRekognitionResponse.data.FaceMatches));
+
+		for(var i=0; i<postRekognitionResponse.data.FaceMatches.length; i++){
+			employeeResponse = await axios.get(`${myAPIs.dbAPI}${postRekognitionResponse.data.FaceMatches[0].Face.ExternalImageId}`);
+			managerResponse = await axios.get(`${myAPIs.dbAPI}${employeeResponse.data.Item.parent}`);
+
+			if(managerResponse){
+				employeeResponse.data.Item.managerFistName = managerResponse.data.Item.firstname;
+				employeeResponse.data.Item.managerLastName = managerResponse.data.Item.lastname;
+			}
+			
+			arrayDB.push(employeeResponse.data.Item);
 		}
 
-      	return onSuccess(arrayDB);
+      	return dispatchingResponse(arrayDB);
     }
     catch(err){
-    	console.log(err);
+    	dispatchingResponse('false');
     }
   }
 }
-
-
-
 
 //SAVE_IMAGE
 export const saveImage = (image, imageBytes, imageName) => ({

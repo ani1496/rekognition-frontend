@@ -28,12 +28,8 @@
 
 const reducerRekognition = (state = {}, action) => {
   switch (action.type){
-    case 'GET_EMPLOYEE':
-      return { ...state, employees: action.employees };
-    case 'GET_EMPLOYEE_DB':
-      return { ...state, employeeDB: action.employeeDB};
     case 'REKOGNITION':
-      return { ...state, employeeInfo: action.payload};
+      return { ...state, employees: action.payload };
     case 'SAVE_IMAGE':
       return { ...state, image: action.image, imageBytes: action.imageBytes, imageName: action.imageName };
     default :

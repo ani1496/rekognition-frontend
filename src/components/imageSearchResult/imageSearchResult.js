@@ -4,13 +4,10 @@ import { Link } from 'react-router-dom';
 
 import EmployeeCard from '../employeeCard/employeeCard.js';
 import imgIcon from '../../img/img.png';
-import { getEmployeeDB } from '../../actions/index.js';
 
-import * as actions from '../../actions/index.js';
 
-const ImageSearchResult = (props) => {
-  
-
+const ImageSearchResult = props => {
+ 
   const renderEmployees = (employees) => { 
     if (employees)
       return employees.map(employee => (
@@ -34,7 +31,7 @@ const ImageSearchResult = (props) => {
         />
       </p>
 
-       {renderEmployees(props.employeeInfo)}
+       { props.employees === 'false' ? <p>Employee not found</p> : renderEmployees(props.employees) }
 
       <br />
 
@@ -53,11 +50,9 @@ const ImageSearchResult = (props) => {
 
 function mapStateToProps(state) {
       return {
-            employees : state.employees,
-            employeeInfo: state.employeeInfo,
-            employeeDB: state.employeeDB,
+            employees: state.employees,
             image: state.image
       };
 }
 
-export default connect(mapStateToProps, actions)(ImageSearchResult);
+export default connect(mapStateToProps)(ImageSearchResult);

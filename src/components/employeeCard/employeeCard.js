@@ -1,5 +1,5 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+
 // import { NavLink } from 'react-router-dom';
 
 import PersonIcon from '../../img/person.png';
@@ -7,13 +7,13 @@ import PersonIcon from '../../img/person.png';
 
 const EmployeeCard = props => {
   
-  const { firstname = 'Employee Name', lastname, employeetitle, parent} = props.employee;
+  const { firstname = 'Employee Name', lastname, employeetitle, managerFistName, managerLastName, pic} = props.employee;
 
   return (
     <div className="card employee-card">
       <div className="card-image">
         <figure className="image">
-          <img className="has-border" src={PersonIcon} alt="employee" />
+          <img className="has-border" src={pic ? pic : PersonIcon} alt="employee" />
         </figure>
       </div>
       <div className="card-content has-text-left">
@@ -26,7 +26,7 @@ const EmployeeCard = props => {
         <div className="content">
           Position: {employeetitle}
           <br />
-          Manager: {parent}
+          Manager: {`${managerFistName} ${managerLastName}`}
         </div>
       </div>
     </div>
@@ -34,3 +34,6 @@ const EmployeeCard = props => {
 }
 
 export default EmployeeCard;
+
+
+//{pic ? pic : <img className="has-border" src={PersonIcon} alt="employee" /> }

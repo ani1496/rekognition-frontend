@@ -31,10 +31,11 @@ export const rekognitionPost = (imageName, imageBytes, config) => {
 		);
 
 		if(postRekognitionResponse.data.FaceMatches)
-			console.log(JSON.stringify(postRekognitionResponse.data.FaceMatches));
+			console.log(postRekognitionResponse.data.FaceMatches[0]);
 
 		for(var i=0; i<postRekognitionResponse.data.FaceMatches.length; i++){
-			employeeResponse = await axios.get(`${myAPIs.dbAPI}${postRekognitionResponse.data.FaceMatches[0].Face.ExternalImageId}`);
+			employeeResponse = await axios.get(`${myAPIs.dbAPI}1003`);
+			//employeeResponse = await axios.get(`${myAPIs.dbAPI}${postRekognitionResponse.data.FaceMatches[0].Face.ExternalImageId}`);
 			managerResponse = await axios.get(`${myAPIs.dbAPI}${employeeResponse.data.Item.parent}`);
 
 			if(managerResponse){

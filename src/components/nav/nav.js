@@ -19,12 +19,6 @@ class Nav extends Component {
             </span>
             Search by Image
           </NavLink>
-          <NavLink to="/byName" className="navbar-item">
-            <span className="icon has-padding-right">
-              <i className="fa fa-pencil" />
-            </span>
-            Search by Name
-          </NavLink>
         </div>
       </nav>
     );

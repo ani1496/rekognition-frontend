@@ -32,6 +32,8 @@ const reducerRekognition = (state = {}, action) => {
       return { ...state, employees: action.payload };
     case 'SAVE_IMAGE':
       return { ...state, image: action.image, imageBytes: action.imageBytes, imageName: action.imageName };
+    case 'CLEAR-SEARCH':
+      return { ...state, employees: action.payload };
     default :
       return state;
   }

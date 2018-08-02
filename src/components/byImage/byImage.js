@@ -7,6 +7,8 @@ import * as actions from '../../actions/index.js';
 
 
 function base64ToArrayBuffer(base64) {
+      console.log("in base64ToArrayBuffer: ");
+      console.log(base64);
       var binary_string = window.atob(base64);
       var len = binary_string.length;
       var bytes = [];
@@ -60,6 +62,9 @@ class ByImage extends Component {
                   }
             };
 
+            // console.log("imageBytes: ")
+            // console.log(this.state.imageBytes);
+
             this.props.rekognitionPost(this.state.imageName, this.state.imageBytes, config);
 
       };
@@ -72,7 +77,7 @@ class ByImage extends Component {
                         <h1>Find By Image</h1>
                         <p className="level-item has-text-centered has-margin20px">
                               <img
-                                    className="has-border"
+                                    className="has-border img-size"
                                     alt="selected"
                                     src={
                                           this.state.image
